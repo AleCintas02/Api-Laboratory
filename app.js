@@ -15,6 +15,8 @@ app.post('/asignar-fecha', TurnosController.asignarFecha) //se solicita dni del 
 
 app.post('/cambiar-estado', TurnosController.cambiarEstado) //se solicita dni de paciente
 
+app.get('/mi-turno', TurnosController.consultarTurno) //se solicita dni de paciente
+
 app.listen(3001, () => {
     console.log("Servidor en el puerto 3001");
 });
