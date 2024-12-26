@@ -53,5 +53,76 @@ export class TurnosController {
         }
     }
 
+
+    static async cambiarEstado(req, res){
+        try{
+            const {dni} = req.body
+            if (!dni ) {
+                return res.status(400).json({ error: "El dni es obligatorio" });
+            }
+
+            const paciente = await PacienteRepository.buscarPaciente({DNI: dni})
+
+            if (!paciente) {
+                return res.status(400).json({ error: "Paciente no encontrado" });
+            }
+
+            const turno = await TurnosRepository.buscarUltimoTurno({
+                id_paciente: paciente.id,
+                estado: "aceptado"
+            })
+
+    
+            turno.estado = 'atendido'
+
+            const turnoActualizado = await turno.save()
+
+            return res.status(200).json({ mensaje: "Turno actualizado", turno: turnoActualizado });
+
+
+        }catch(err){
+            return res.status(500).json({ error: err.message });
+        }
+    }
+
+    static async asignarFecha(req, res) {
+        try {
+            const { dni, fecha } = req.body;
+    
+            if (!dni || !fecha) {
+                return res.status(400).json({ error: "El dni y la fecha son obligatorios" });
+            }
+    
+            const paciente = await PacienteRepository.buscarPaciente({ DNI: dni });
+    
+            if (!paciente) {
+                return res.status(400).json({ error: "Paciente no encontrado" });
+            }
+    
+            const turno = await TurnosRepository.buscarUltimoTurno({
+                id_paciente: paciente.id,
+                estado: 'pendiente'
+            });
+    
+            if (!turno) {
+                return res.status(400).json({ error: "No se encontró ningún turno pendiente" });
+            }
+    
+            if (turno.fecha_turno != null) {
+                return res.status(400).json({ error: "Fecha ya asignada" });
+            }
+    
+            turno.fecha_turno = fecha;
+            turno.estado = "aceptado";
+    
+            const turnoActualizado = await turno.save();
+    
+            return res.status(200).json({ mensaje: "Turno actualizado", turno: turnoActualizado });
+        } catch (err) {
+            return res.status(500).json({ error: err.message });
+        }
+    }
+    
+
     
 }

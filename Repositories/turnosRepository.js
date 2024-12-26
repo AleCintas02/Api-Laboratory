@@ -22,6 +22,32 @@ export class TurnosRepository{
         }
     }
 
+    // static async asignarFecha(fecha){
+    //     try{
+    //         turno.fecha_turno = fecha;
+    //         turno.estado = "aceptado";
+    //     }catch(err){
+
+    //     }
+    // }
+
+
+    static async cambiarEstado(turno){
+        try{
+            
+        }catch(err){
+
+        }
+    }
+
+    static async buscarUltimoTurno(filtro){
+        try{
+            return await Turno.findOne(filtro).sort({_id:-1}).exec()
+        }catch(err){
+            throw new Error("Error al buscar ultimo turno: " + err.message)
+        }
+    }
+
     
 
 

@@ -11,6 +11,10 @@ app.get('/turnos', TurnosController.listarTurnos)
 
 app.post('/solicitar-turno', TurnosController.solicitarTurno)
 
+app.post('/asignar-fecha', TurnosController.asignarFecha)
+
+app.post('/cambiar-estado', TurnosController.cambiarEstado)
+
 app.listen(3001, () => {
     console.log("Servidor en el puerto 3001");
 });

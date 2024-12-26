@@ -12,7 +12,10 @@ export class PacienteRepository {
 
     static async buscarPaciente(filtro) {
         try {
-            return await Paciente.findOne(filtro); // Busca con el campo `DNI`
+
+            const paciente = await Paciente.findOne(filtro)
+            return  paciente
+        
         } catch (err) {
             throw new Error("Error al buscar paciente: " + err.message);
         }
